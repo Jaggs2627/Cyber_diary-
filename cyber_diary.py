@@ -2,82 +2,94 @@ import streamlit as st
 from cryptography.fernet import Fernet
 import base64
 
-# 1. High-Tech Green Styling
-st.set_page_config(page_title="The Emerald Ledger", page_icon="📟")
+# 1. Cyber-Terminal Styling
+st.set_page_config(page_title="Emerald Protocol", page_icon="📟")
 
 st.markdown("""
     <style>
+    /* Dark terminal background */
     .stApp {
-        background-color: #000d00; /* Darkest Green */
+        background-color: #000b00; 
     }
+    /* Glowing Green Headers */
     h1, h2, h3 {
-        color: #00FF00 !important; /* Classic Matrix Green */
+        color: #00FF41 !important; 
         font-family: 'Courier New', Courier, monospace;
-        text-shadow: 0 0 10px #00FF00;
+        text-shadow: 0 0 8px #00FF41;
     }
+    /* Terminal-style buttons */
     .stButton>button {
-        background-color: #006400;
-        color: #00FF00;
-        border-radius: 5px;
-        border: 1px solid #00FF00;
-    }
-    /* Matrix-style falling data effect */
-    @keyframes matrix {
-        0% { transform: translateY(-100%); }
-        100% { transform: translateY(1000%); }
-    }
-    .matrix-char {
-        position: fixed;
-        color: #00FF00;
+        background-color: #003300;
+        color: #00FF41;
+        border: 1px solid #00FF41;
+        border-radius: 2px;
         font-family: 'Courier New', monospace;
-        font-size: 20px;
-        opacity: 0.3;
-        animation: matrix 10s linear infinite;
-        z-index: 0;
+        width: 100%;
+    }
+    .stButton>button:hover {
+        background-color: #00FF41;
+        color: black;
+    }
+    /* Matrix-style falling code effect */
+    @keyframes fall {
+        0% { transform: translateY(-100%); }
+        100% { transform: translateY(100vh); }
+    }
+    .matrix-bg {
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0.1;
+        color: #00FF41;
+        font-family: monospace;
+        overflow: hidden;
     }
     </style>
+    <div class="matrix-bg">
+        <div style="position:absolute; left:10%; animation: fall 10s linear infinite;">01011001 11010101</div>
+        <div style="position:absolute; left:30%; animation: fall 7s linear infinite;">11100010 00101111</div>
+        <div style="position:absolute; left:60%; animation: fall 12s linear infinite;">10101011 11001100</div>
+        <div style="position:absolute; left:85%; animation: fall 9s linear infinite;">00011101 10101010</div>
+    </div>
     """, unsafe_allow_html=True)
 
-# Adding the subtle background data effect
-st.markdown('<div class="matrix-char" style="left:10%; animation-delay:1s;">01</div>', unsafe_allow_html=True)
-st.markdown('<div class="matrix-char" style="left:40%; animation-delay:4s;">10</div>', unsafe_allow_html=True)
-st.markdown('<div class="matrix-char" style="left:70%; animation-delay:2s;">11</div>', unsafe_allow_html=True)
+st.title("📟 EMERALD PROTOCOL")
+st.subheader("Secure Love Ledger v1.0")
 
-st.title("📟 The Cyber Diary 📟")
-st.subheader("Secure Communication Terminal")
-
-# 2. Encryption Engine (Using your key: 262427)
+# 2. The Engine (Using your personal key: 262427)
 def generate_key(secret_word):
     key = base64.urlsafe_b64encode(secret_word.ljust(32)[:32].encode())
     return key
 
-user_key = generate_key("J262427")
+# Your personal secret key
+user_key = generate_key("262427")
 cipher = Fernet(user_key)
 
-# 3. Terminal Interface
-tab1, tab2 = st.tabs(["🔒 ENCRYPT DATA", "🔓 DECRYPT DATA"])
+# 3. Interface Tabs
+tab1, tab2 = st.tabs(["🔒 ENCRYPT", "🔓 DECRYPT"])
 
 with tab1:
-    st.write("Input sensitive data for transmission:")
-    input_text = st.text_area("Message:", placeholder="System update required...")
-    if st.button("Generate Ciphertext"):
-        if input_text:
-            encrypted_text = cipher.encrypt(input_text.encode()).decode()
-            st.success("Encryption Successful.")
-            st.code(encrypted_text)
+    st.write("### Input Plaintext for Encryption:")
+    msg = st.text_area("Message:", placeholder="Enter secret transmission...")
+    if st.button("EXECUTE ENCRYPTION"):
+        if msg:
+            token = cipher.encrypt(msg.encode()).decode()
+            st.success("DATA ENCRYPTED")
+            st.code(token)
         else:
-            st.warning("No data detected.")
+            st.warning("ERROR: NO INPUT DETECTED")
 
 with tab2:
-    st.write("Input encrypted packet:")
-    incoming_data = st.text_input("Ciphertext:")
-    if st.button("Authorize Decryption"):
+    st.write("### Input Ciphertext for Decryption:")
+    code = st.text_input("Encrypted Packet:")
+    if st.button("AUTHORIZE ACCESS"):
         try:
-            decrypted_text = cipher.decrypt(incoming_data.encode()).decode()
+            original = cipher.decrypt(code.encode()).decode()
             st.toast('Access Granted', icon='✅')
-            st.markdown(f"### 🔓 Decrypted Output:\n**{decrypted_text}**")
+            st.markdown(f"#### 🔓 DECODED MESSAGE:\n> **{original}**")
         except:
-            st.error("Access Denied: Key Mismatch or Corrupted Data.")
+            st.error("FATAL ERROR: INVALID KEY OR CORRUPTED DATA")
 
 st.markdown("---")
-st.write("🛡️ *Protocol J262427 Active*")
+st.write("🟢 *System Status: Secure | Port J262427 Online*")
