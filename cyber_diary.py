@@ -54,8 +54,8 @@ st.markdown("""
     </div>
     """, unsafe_allow_html=True)
 
-st.title("📟 EMERALD PROTOCOL")
-st.subheader("Secure Love Ledger v1.0")
+st.title("📟 Cyber Diary")
+st.subheader("Secure Messenger v1.0")
 
 # 2. The Engine (Using your personal key: 262427)
 def generate_key(secret_word):
@@ -63,7 +63,7 @@ def generate_key(secret_word):
     return key
 
 # Your personal secret key
-user_key = generate_key("262427")
+user_key = generate_key("J262427")
 cipher = Fernet(user_key)
 
 # 3. Interface Tabs
