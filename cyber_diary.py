@@ -88,6 +88,7 @@ with tab2:
             original = cipher.decrypt(code.encode()).decode()
             st.toast('Access Granted', icon='✅')
             st.markdown(f"#### 🔓 DECODED MESSAGE:\n> **{original}**")
+            st.markdown(f"<p style='color: white; font-size: 20px; font-weight: bold;'>{original}</p>", unsafe_allow_html=True)
         except:
             st.error("FATAL ERROR: INVALID KEY OR CORRUPTED DATA")
 
